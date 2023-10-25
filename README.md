@@ -4,7 +4,7 @@ Aplikasi yang Anda buat harus menggunakan port 9000. Jika komputer yang Anda gun
 Kriteria 2 : Aplikasi dijalankan dengan perintah npm run start.
 Aplikasi yang Anda buat harus memiliki runner script start. Cara membuatnya, Anda tambahkan properti start ke dalam properti scripts pada package.json seperti berikut:
 
-```python
+```javascript
 {
 "name": "submission",
 ...
@@ -34,6 +34,7 @@ Method : POST
 URL : /books
 Body Request:
 
+```javascript
 {
 "name": string,
 "year": number,
@@ -44,8 +45,11 @@ Body Request:
 "readPage": number,
 "reading": boolean
 }
+```
+
 Objek buku yang disimpan pada server harus memiliki struktur seperti contoh di bawah ini:
 
+```javascript
 {
 "id": "Qbax5Oy7L8WKf74l",
 "name": "Buku A",
@@ -60,6 +64,8 @@ Objek buku yang disimpan pada server harus memiliki struktur seperti contoh di b
 "insertedAt": "2021-03-04T09:11:44.598Z",
 "updatedAt": "2021-03-04T09:11:44.598Z"
 }
+```
+
 Properti yang ditebalkan diolah dan didapatkan di sisi server. Berikut penjelasannya:
 
 id : nilai id haruslah unik. Untuk membuat nilai unik, Anda bisa memanfaatkan nanoid. Untuk Anda yang menggunakan CommonJS untuk sistem modularisasi, pastikan memasang nanoid versi 3 melalui perintah: npm install nanoid@3.
