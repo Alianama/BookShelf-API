@@ -223,7 +223,7 @@ Bila buku berhasil diperbarui, server harus mengembalikan respons dengan:
 Status Code : 200
 Response Body:
 
-```
+```python
 {
 "status": "success",
 "message": "Buku berhasil diperbarui"
