@@ -69,71 +69,112 @@ const addBooksHandler = (request, h) => {
 };
 
 //Menampilkan Seluruh Buku
-const getAllBooksHandler = (request, h) => {
-  const { name, reading, finished } = request.query;
-  if (name !== undefined) {
-    const BooksName = books.filter((book) =>
-      book.name.toLowerCase().includes(name.toLowerCase())
-    );
-    const response = h.response({
-      status: "success",
-      data: {
-        books: {
-          books: BooksName.map((book) => ({
-            id: book.id,
-            name: book.name,
-            publisher: book.push.publisher,
-          })),
-        },
-      },
-    });
-    response.code(200);
-    return response;
-  } else if (reading !== undefined) {
-    const BooksReading = books.filter(
-      (book) => Number(book.reading) === Number(reading)
-    );
-    const response = h.response({
-      status: "success",
-      data: {
-        books: BooksReading.map((book) => ({
-          id: book.id,
-          name: book.name,
-          publisher: book.publisher,
-        })),
-      },
-    });
-    response.code(200);
-    return response;
-  } else if (finished !== undefined) {
-    const BooksFinished = books.filter((book) => book.finished == finished);
 
+const getAllBooksHandler = (request, h) => {
+  const response = h.response({
+    status: "success",
+    data: {
+      books: books.map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
+      })),
+    },
+  });
+  response.code(200);
+  return response;
+};
+
+//Mendapatkan Detail Buku Berdasarkan ID
+const getBooksByIdHandler = (request, h) => {
+  const { id } = request.params;
+
+  const book = books.filter((b) => b.id === id)[0];
+  if (book !== undefined) {
     const response = h.response({
       status: "success",
       data: {
-        books: BooksFinished.map((book) => ({
-          id: book.id,
-          name: book.name,
-          publisher: book.publisher,
-        })),
+        book,
       },
     });
     response.code(200);
     return response;
   } else {
     const response = h.response({
-      status: "success",
-      data: {
-        books: books.map((book) => ({
-          id: book.id,
-          name: book.name,
-          publisher: book.publisher,
-        })),
-      },
+      status: "fail",
+      message: "Buku tidak ditemukan",
     });
-    response.code(200);
+    response.code(404);
     return response;
   }
 };
 
-module.exports = { addBooksHandler, getAllBooksHandler };
+//Ubah Buku Berdasarkan ID
+const editBooksByIdhandler = (request, h) => {
+  const { id } = request.params;
+
+  const {
+    name,
+    year,
+    author,
+    summary,
+    publisher,
+    pageCount,
+    readPage,
+    reading,
+  } = request.payload;
+  const updatedAt = new Date().toISOString();
+  const index = books.findIndex((book) => book.id === id);
+  const book = books.filter((b) => b.id === id)[0];
+  if (book !== undefined) {
+    if (name === undefined) {
+      const response = h.response({
+        status: "fail",
+        message: "Gagal memperbarui buku. Mohon isi nama buku",
+      });
+      response.code(400);
+      return response;
+    } else if (readPage > pageCount) {
+      const response = h.response({
+        status: "fail",
+        message:
+          "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount",
+      });
+      response.code(400);
+      return response;
+    } else if (index > -1) {
+      books[index] = {
+        ...books[index],
+        name,
+        year,
+        author,
+        summary,
+        publisher,
+        pageCount,
+        readPage,
+        reading,
+        updatedAt,
+      };
+      const response = h.response({
+        status: "success",
+        message: "Buku berhasil diperbarui",
+      });
+      response.code(200);
+      return response;
+    }
+  } else {
+    const response = h.response({
+      status: "fail",
+      message: "Gagal memperbarui buku. Id tidak ditemukan",
+    });
+    response.code(404);
+    return response;
+  }
+};
+
+module.exports = {
+  addBooksHandler,
+  getAllBooksHandler,
+  getBooksByIdHandler,
+  editBooksByIdhandler,
+};
