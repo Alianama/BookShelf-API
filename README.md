@@ -4,13 +4,14 @@ Aplikasi yang Anda buat harus menggunakan port 9000. Jika komputer yang Anda gun
 Kriteria 2 : Aplikasi dijalankan dengan perintah npm run start.
 Aplikasi yang Anda buat harus memiliki runner script start. Cara membuatnya, Anda tambahkan properti start ke dalam properti scripts pada package.json seperti berikut:
 
+````json
 {
 "name": "submission",
 ...
 "scripts": {
 "start": "node src/server.js",
 }
-}
+} ```
 Pastikan aplikasi tidak dijalankan dengan menggunakan nodemon. Jika Anda ingin menggunakan nodemon dalam proses development, masukkan nodemon kedalam runner script lain, contohnya:
 
 {
@@ -228,7 +229,7 @@ Response Body:
 "status": "success",
 "message": "Buku berhasil diperbarui"
 }
-```
+````
 
 Kriteria 7 : API dapat menghapus buku
 API yang Anda buat harus dapat menghapus buku berdasarkan id melalui route berikut:
