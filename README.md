@@ -222,10 +222,14 @@ Bila buku berhasil diperbarui, server harus mengembalikan respons dengan:
 
 Status Code : 200
 Response Body:
-`{
+
+```javascript
+{
 "status": "success",
 "message": "Buku berhasil diperbarui"
-}`
+}
+```
+
 Kriteria 7 : API dapat menghapus buku
 API yang Anda buat harus dapat menghapus buku berdasarkan id melalui route berikut:
 
